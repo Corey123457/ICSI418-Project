@@ -113,8 +113,8 @@ const Signup = () => {
 
             <button
                 onClick={(event) => {
-                    handleTeam(event, pref, combinedTime); // keep original submission
-                    navigate("/Dashboard"); // navigate to dashboard immediately after
+                    handleTeam(event, pref, combinedTime);
+                    navigate("/Dashboard");
                 }}
                 style={{
                     position: "fixed",
