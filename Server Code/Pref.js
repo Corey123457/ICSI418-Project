@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 const PreferenceSchema = new mongoose.Schema({
-    pref: String
+    pref: [String],
+    time: String
 });
 
 const Preference = mongoose.model("Preference", PreferenceSchema);
