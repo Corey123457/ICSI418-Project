@@ -8,103 +8,29 @@ const Dashboard = () => {
         <div style={{ padding: "20px" }}>
             <h1>Dashboard</h1>
 
-            <button
-                style={{
-                    marginTop: "20px",
-                    padding: "10px 20px",
-                    backgroundColor: "#007BFF",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    fontSize: "16px"
-                }}
-                onClick={() => navigate("/ChooseP")}
-            >
+            <button onClick={() => navigate("/ChooseP")}>
                 Preferences
-
             </button>
 
-            <button
-                style={{
-                    marginTop: "20px",
-                    padding: "10px 20px",
-                    backgroundColor: "#007BFF",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    fontSize: "16px"
-                }}
-                onClick={() => navigate()}
-            >
-            (Page)
+            <button onClick={() => navigate()}>
+                (Page)
             </button>
 
-            <button
-                style={{
-                    marginTop: "20px",
-                    padding: "10px 20px",
-                    backgroundColor: "#007BFF",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    fontSize: "16px"
-                }}
-                onClick={() => navigate()}
-            >
-            (Page)
+            <button onClick={() => navigate()}>
+                (Page)
             </button>
 
-                        <button
-                style={{
-                    marginTop: "20px",
-                    padding: "10px 20px",
-                    backgroundColor: "#007BFF",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    fontSize: "16px"
-                }}
-                onClick={() => navigate()}
-            >
-            (Page)
+            <button onClick={() => navigate()}>
+                (Page)
             </button>
 
-                        <button
-                style={{
-                    marginTop: "20px",
-                    padding: "10px 20px",
-                    backgroundColor: "#007BFF",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    fontSize: "16px"
-                }}
-                onClick={() => navigate()}
-            >
-            (Page)
+            <button onClick={() => navigate()}>
+                (Page)
             </button>
 
-                        <button
-                style={{
-                    marginTop: "20px",
-                    padding: "10px 20px",
-                    backgroundColor: "#007BFF",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    fontSize: "16px"
-                }}
-                onClick={() => navigate()}
-            >
-            (Page)
+            <button onClick={() => navigate()}>
+                (Page)
             </button>
-
         </div>
     );
 };
