@@ -4,10 +4,10 @@ import "./Manage_Location.css";
 export default function ManageLocation() {
     // Example queries
   const [locations, setLocations] = useState([
-    { id: 1, name: "Home", address: "500 Hudson Ave", type: "Trip A" },
-    { id: 2, name: "Work", address: "4200 Washington Ave", type: "Trip B" },
-    { id: 3, name: "Beach Trip", address: "Trip A", type: "" },
-    { id: 4, name: "Great Smokey Mountains", address: "Trip B", type: "" },
+    { id: 1, name: "Home", address: "500 Hudson Ave", description: "Trip A" },
+    { id: 2, name: "Work", address: "4200 Washington Ave", description: "Trip B" },
+    { id: 3, name: "Beach Trip", address: "Trip A", description: "" },
+    { id: 4, name: "Great Smokey Mountains", address: "Trip B", description: "" },
   ]);
 
   const [form, setForm] = useState({
@@ -25,31 +25,64 @@ export default function ManageLocation() {
   };
 
   // Add new OR update existing
-  const handleSaveForm = (e) => {
-    e.preventDefault();
-    if (!form.name || !form.address) return;
+  const handleSaveForm = async (e) => {
+  e.preventDefault();
+  if (!form.name || !form.address) return;
 
-    if (selectedId == null) {
-      // create
+  // Only include id if it’s a Mongo string, not the initial numeric ones
+  const isMongoId = typeof selectedId === "string";
+  const payload = {
+    ...(isMongoId ? { id: selectedId } : {}),
+    name: form.name,
+    address: form.address,
+    description: form.description,
+  };
+
+  try {
+    const res = await fetch("http://localhost:9000/saveLocation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const saved = await res.json();
+
+    if (!res.ok) {
+      console.error(saved);
+      return;
+    }
+
+    if (!isMongoId) {
+      // treat as create, even if editing a seed row
       const newLocation = {
-        id: Date.now(),
-        name: form.name,
-        address: form.address,
-        description: form.description,
+        id: saved._id,
+        name: saved.name,
+        address: saved.address,
+        description: saved.description,
       };
       setLocations((prev) => [...prev, newLocation]);
     } else {
-      // update
+      // normal update
       setLocations((prev) =>
         prev.map((loc) =>
-          loc.id === selectedId ? { ...loc, ...form } : loc
+          loc.id === selectedId
+            ? {
+                ...loc,
+                name: saved.name,
+                address: saved.address,
+                description: saved.description,
+              }
+            : loc
         )
       );
     }
 
-    setForm({ name: "", address: "", type: "" });
+    setForm({ name: "", address: "", description: "" });
     setSelectedId(null);
-  };
+  } catch (err) {
+    console.error("Error saving location", err);
+  }
+};
+
 
   const handleSelect = (loc) => {
     setSelectedId(loc.id);
@@ -62,22 +95,38 @@ export default function ManageLocation() {
     setForm({
       name: loc.name,
       address: loc.address,
-      type: loc.type,
+      description: loc.description,
     });
   };
 
-  const handleDelete = () => {
-    if (selectedId == null) return;
-    setLocations((prev) => prev.filter((l) => l.id !== selectedId));
-    setSelectedId(null);
-    setForm({ name: "", address: "", type: "" });
-  };
+  const handleDelete = async () => {
+  if (selectedId == null) return;
 
-  const handleSaveList = () => {
-    console.log("Saving all locations", locations);
-  };
+  const isMongoId = typeof selectedId === "string";
+
+  // Always remove from UI
+  setLocations((prev) => prev.filter((l) => l.id !== selectedId));
+  setSelectedId(null);
+  setForm({ name: "", address: "", description: "" });
+
+  // Only hit Mongo if it's a real _id
+  if (!isMongoId) return;
+
+  try {
+    const res = await fetch(
+      `http://localhost:9000/deleteLocation/${selectedId}`,
+      { method: "DELETE" }
+    );
+
+    if (!res.ok) {
+      console.error("Failed to delete location in DB");
+    }
+  } catch (err) {
+    console.error("Error deleting location", err);
+  }
+};
+
   
-
   return (
     <div className="page">
       <div className="card">
@@ -95,7 +144,7 @@ export default function ManageLocation() {
             >
               <div className="location-name">{loc.name}</div>
               <div className="location-address">{loc.address}</div>
-              {loc.type && <div className="location-type">{loc.type}</div>}
+              {loc.description && <div className="location-type">{loc.description}</div>}
             </li>
           ))}
         </ul>

@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const User = require('./UserSchema');
 const Pref = require('./Pref.js')
+const Location = require('./Location');
 
 app.use(express.json());
 app.use(cors())
@@ -90,3 +91,45 @@ app.get('/getTeams', async (req, res) => {
         res.status(500).send(error)
     }
 })
+
+app.post('/saveLocation', async (req, res) => {
+  try {
+    const { id, name, address, description } = req.body;
+
+    let doc;
+    if (id) {
+      // update existing
+      doc = await Location.findByIdAndUpdate(
+        id,
+        { name, address, description },
+        { new: true, upsert: true }
+      );
+    } else {
+      // create new
+      doc = new Location({ name, address, description });
+      await doc.save();
+    }
+
+    res.send(doc);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
+
+app.delete('/deleteLocation/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const deleted = await Location.findByIdAndDelete(id); // or findByIdAndRemove
+
+    if (!deleted) {
+      return res.status(404).send('Location not found');
+    }
+
+    res.send({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
+
