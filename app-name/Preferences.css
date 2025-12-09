@@ -1,0 +1,133 @@
+.preferences-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+.preferences-container > div:first-child {
+  flex-shrink: 0;
+}
+
+.preferences-main {
+  flex-grow: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center all sections */
+}
+
+.preferences-main h2 {
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  color: #1f2937;
+}
+
+/* Each section in its own card */
+.section-box {
+  width: 100%;
+  max-width: 500px;
+  background-color: white;
+  padding: 20px 25px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Sliders */
+.slider-container {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.slider-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.slider-container input[type="range"] {
+  width: 100%;
+}
+
+/* Weather toggles */
+.weather-toggle-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.weather-toggle {
+  padding: 10px 20px;
+  background-color: #e3e7f3;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s, color 0.2s;
+  font-weight: 500;
+}
+
+.weather-toggle.active {
+  background-color: #6a95ff;
+  color: white;
+}
+
+.weather-toggle:hover {
+  background-color: #cfd7eb;
+}
+
+/* Button */
+.section-box button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.section-box button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.section-box button:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+/* Cards */
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+.location-card {
+  background-color: #f9fafb;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.location-card h4 {
+  margin-bottom: 5px;
+}
+
+.location-card p {
+  margin: 2px 0;
+}
+
+/* Location info */
+.location-info {
+  font-style: italic;
+  color: #4b5563;
+}

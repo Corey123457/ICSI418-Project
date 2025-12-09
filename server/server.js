@@ -1,92 +1,137 @@
 const express = require('express');
 const cors = require('cors');
-const app = express();
+const http = require('http');
+const { Server } = require('socket.io');
+const mongoose = require('mongoose');
+
 const User = require('./UserSchema');
-const Pref = require('./Pref.js')
+const Pref = require('./Pref.js');
+const Team = require('./Team'); // make sure this file exists
+const Message = require('./Message'); // message schema (explained below)
+
+// -----------------------
+// EXPRESS + SOCKET SERVER
+// -----------------------
+const app = express();
+const server = http.createServer(app);
+
+const io = new Server(server, {
+    cors: {
+        origin: "*"
+    }
+});
 
 app.use(express.json());
-app.use(cors())
-app.listen(9000, ()=> {
-    console.log('Server Started at ${9000}')
-})
+app.use(cors());
 
-const mongoose = require('mongoose');
-const mongoString = "mongodb+srv://Corey:zJcOMudWtLCt5dcs@cluster0.f8u7gla.mongodb.net/Lab"
-mongoose.connect(mongoString)
-const database = mongoose.connection
+// -----------------------
+// START SERVER
+// -----------------------
+server.listen(9000, () => {
+    console.log('Server started at 9000');
+});
 
-database.on('error', (error) => console.log(error))
+// -----------------------
+// MONGODB CONNECTION
+// -----------------------
+const mongoString = "mongodb+srv://Corey:zJcOMudWtLCt5dcs@cluster0.f8u7gla.mongodb.net/Lab";
+mongoose.connect(mongoString);
 
-database.once('connected', () => console.log('Databased Connected'))
+const database = mongoose.connection;
+database.on('error', (error) => console.log(error));
+database.once('connected', () => console.log('Database Connected'));
 
+
+// -----------------------
+// SOCKET.IO CHAT LOGIC
+// -----------------------
+io.on("connection", (socket) => {
+    console.log("User connected:", socket.id);
+
+    socket.on("joinGroup", (groupId) => {
+        socket.join(groupId);
+        console.log(`User joined group: ${groupId}`);
+    });
+
+    socket.on("sendMessage", async (msgData) => {
+        // Save message to MongoDB
+        const message = new Message(msgData);
+        await message.save();
+
+        // Broadcast to group members
+        io.to(msgData.groupId).emit("receiveMessage", msgData);
+    });
+
+    socket.on("disconnect", () => {
+        console.log("User disconnected:", socket.id);
+    });
+});
+
+
+// -----------------------------------------
+// EXISTING API ROUTES (you already had these)
+// -----------------------------------------
 app.post('/createUser', async (req, res) => {
-    console.log(`SERVER: CREATE USER REQ BODY: ${req.body.username} ${req.body.firstName} ${req.body.lastName}`)
-    const un = req.body.username
+    const un = req.body.username;
+
     try {
-        //Check if username already exists in database
-        User.exists({username: un}).then(result => {
-            if(Object.is(result, null)) {
+        User.exists({ username: un }).then((result) => {
+            if (!result) {
                 const user = new User(req.body);
-                user.save()
-                console.log(`User created! ${user}`)
-                res.send(user)
+                user.save();
+                console.log(`User created! ${user}`);
+                res.send(user);
+            } else {
+                res.status(500).send("Username already exists");
             }
-            else {
-                console.log("Username already exists")
-                res.status(500).send("Username already exists")
-            }
-        })
+        });
+    } catch (error) {
+        res.status(500).send(error);
     }
-    catch (error){
-        res.status(500).send(error)
-    }
-})
+});
+
 
 app.get('/getUser', async (req, res) => {
-    const username = req.query.username
-    const password = req.query.password
-
-    console.log(username)
-    console.log(password)
     try {
-        const user = await User.findOne({ username, password })
-        res.send(user)
+        const user = await User.findOne({
+            username: req.query.username,
+            password: req.query.password
+        });
+
+        res.send(user);
+    } catch (error) {
+        res.status(500).send(error);
     }
-    catch (error) {
-        res.status(500).send(error)
-    }
-})
+});
+
 
 app.post('/createTeam', async (req, res) => {
     try {
-            const team = new Team(req.body);
-            team.save()
-            console.log(`Team created! ${team}`)
-            res.send(team)
+        const team = new Team(req.body);
+        await team.save();
+        res.send(team);
+    } catch (error) {
+        res.status(500).send(error);
     }
-    catch (error){
-        res.status(500).send(error)
-    }
-})
+});
+
 
 app.post('/choosePref', async (req, res) => {
     try {
-            const pref = new Pref(req.body);
-            pref.save()
-            console.log(`Pref created! ${pref}`)
-            res.send(pref)
+        const pref = new Pref(req.body);
+        await pref.save();
+        res.send(pref);
+    } catch (error) {
+        res.status(500).send(error);
     }
-    catch (error){
-        res.status(500).send(error)
-    }
-})
+});
+
 
 app.get('/getTeams', async (req, res) => {
     try {
-        const teamList = await Team.find({}, {team_name:1});
-        res.send(teamList)
+        const list = await Team.find({}, { team_name: 1 });
+        res.send(list);
+    } catch (error) {
+        res.status(500).send(error);
     }
-    catch (error) {
-        res.status(500).send(error)
-    }
-})
+});

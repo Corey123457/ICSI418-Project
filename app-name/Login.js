@@ -1,59 +1,71 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import "./Login.css";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebase";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const navigate = useNavigate(); // React Router hook
+  const handleLogin = async () => {
+    setError("");
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      const user = cred.user;
 
-    const handleLogin = (event, username, password) => {
-        axios.get('http://localhost:9000/getUser', { params: { username, password }})
-            .then((res) => {
-                if (res.data) {
-                    alert('Login Successful');
-                    navigate("/dashboard"); // Redirect to Dashboard
-                } else {
-                    alert('Wrong Credentials');
-                }
-            })
-            .catch((err) => alert('Error in Login'));
-    };
+      const fallbackName = user.displayName || user.email.split("@")[0];
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    };
+      const profile = {
+        uid: user.uid,
+        email: user.email,
+        name: fallbackName,
+        firstName: fallbackName,
+        lastName: "",
+        dob: "",
+        profilePic: "",
+      };
 
-    return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="UserID">User ID:</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
+      localStorage.setItem("userProfile", JSON.stringify(profile));
 
-                <label htmlFor="Password">Password:</label>
-                <input
-                    type="text"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+      navigate("/Dashboard");
+    } catch (err) {
+      console.error(err);
+      setError("Invalid email or password.");
+    }
+  };
 
-                <button
-                    type="button"
-                    onClick={(event) => handleLogin(event, username, password)}
-                >
-                    Login
-                </button>
-            </form>
+  return (
+    <div className="login-container">
+      <div className="login-card">
+        <h1>WanderPlan</h1>
 
-            |<a href="/Signup">Signup</a>|
-            <a href="/ChooseP">ChooseP</a>|
-        </>
-    );
+        {error && <p className="error">{error}</p>}
+
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button onClick={handleLogin}>Login</button>
+
+        <div className="login-links">
+          <p onClick={() => navigate("/Signup")}>Signup</p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Login;

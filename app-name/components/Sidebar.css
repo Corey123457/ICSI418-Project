@@ -1,0 +1,36 @@
+.sidebar {
+    width: 90px;
+    background: #f3eefc;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    border-right: 1px solid #e1dbee;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.nav-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    color: #5b4d8c;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-btn .material-icons {
+    font-size: 26px;
+    margin-bottom: 4px;
+}

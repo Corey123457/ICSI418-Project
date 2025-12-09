@@ -1,0 +1,35 @@
+.suggested-container {
+  display: flex;
+  width: 100%;
+  background: #f5f7fa;
+  height: 100vh;
+}
+
+.suggested-main {
+  flex: 1;
+  padding: 40px;
+}
+
+.recommend-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 280px);
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.rec-card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.rec-card h2 {
+  margin: 0 0 10px;
+}
+
+.reason {
+  margin-top: 12px;
+  color: #6a95ff;
+  font-weight: bold;
+}

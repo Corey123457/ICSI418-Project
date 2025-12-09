@@ -1,0 +1,274 @@
+/* Trip.css */
+
+/* MAIN LAYOUT */
+.trip-container {
+  display: flex;
+  background: #f5f3fc;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+.trip-main {
+  flex: 1;
+  padding: 50px 70px;
+}
+
+/* HEADER */
+.trip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trip-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Editable title input */
+.trip-input-title {
+  font-size: 32px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border: 2px solid #c9b7ff;
+  border-radius: 10px;
+  outline: none;
+  width: 60%;
+  background: white;
+}
+
+/* Edit button */
+.edit-btn {
+  background: #6b52c7;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #5a45b0;
+}
+
+/* DETAILS BOX */
+.trip-details-box {
+  margin-top: 15px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  width: 60%;
+}
+
+.trip-route,
+.trip-dates {
+  font-size: 16px;
+  margin-top: 8px;
+  color: #555;
+}
+
+/* Inputs inside edit mode */
+.trip-details-box input {
+  padding: 7px 10px;
+  margin-left: 5px;
+  border: 1px solid #c9b7ff;
+  border-radius: 8px;
+}
+
+/* Save edits button */
+.save-trip-btn {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: #4e3ab8;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.save-trip-btn:hover {
+  background: #3e2f99;
+}
+
+/* MEMBERS SECTION */
+.trip-members-section {
+  margin-top: 35px;
+}
+
+.trip-members-section h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+/* Member list */
+.member-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Member chip with delete button */
+.member-chip {
+  background: #ebe5ff;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #d8ccff;
+}
+
+/* Delete (x) button */
+.remove-member-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #888;
+}
+
+.remove-member-btn:hover {
+  color: red;
+}
+
+/* Add member row */
+.add-member-row {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.add-member-row input {
+  padding: 10px;
+  width: 260px;
+  border-radius: 10px;
+  border: 1px solid #c9b7ff;
+}
+
+.add-member-btn {
+  padding: 10px 18px;
+  background: #6b52c7;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.add-member-btn:hover {
+  background: #5a45b0;
+}
+
+/* ACTION BUTTONS */
+.trip-actions {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.big-btn {
+  background: #6b52c7;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  min-width: 200px;
+  text-align: center;
+}
+
+.big-btn:hover {
+  background: #5a45b0;
+}
+
+.big-btn.secondary {
+  background: #ddd;
+  color: #333;
+}
+
+.big-btn.secondary:hover {
+  background: #ccc;
+}
+
+/* MODAL BACKDROP */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+/* MODAL BOX */
+.modal-box {
+  background: white;
+  padding: 25px;
+  width: 380px;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.2);
+}
+
+.modal-box h3 {
+  margin-bottom: 15px;
+}
+
+.modal-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid #c9b7ff;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 12px;
+  background: #6b52c7;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background: #553eb0;
+}
+
+.cancel-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: #eee;
+  color: #333;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background: #ddd;
+}
+/* Edit Members Button */
+.edit-members-btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: #6b52c7;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.edit-members-btn:hover {
+  background: #583bb3;
+}

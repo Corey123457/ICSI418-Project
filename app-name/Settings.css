@@ -1,0 +1,114 @@
+.settings-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background: #f5f6fa;
+}
+
+.settings-main {
+  flex: 1;
+  padding: 40px 50px;
+  overflow-y: auto;
+}
+
+.settings-main h1 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: #1a1a1a;
+}
+
+.pic-section {
+  margin-bottom: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 2px solid #e0e0e0;
+  background: #fff;
+}
+
+.settings-card {
+  background: #ffffff;
+  padding: 28px;
+  width: 65%;
+  border-radius: 16px;
+  margin-bottom: 35px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.settings-card h2 {
+  margin-bottom: 18px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #2c2c2c;
+}
+
+.settings-card label {
+  font-size: 15px;
+  margin-top: 12px;
+  display: block;
+  color: #444;
+}
+
+.settings-card input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  margin-bottom: 18px;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+
+.settings-card input:focus {
+  border-color: #6a95ff;
+  background: #fff;
+  outline: none;
+}
+
+.save-btn {
+  background: #4c8bff;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: 0.2s ease;
+}
+
+.save-btn:hover {
+  background: #3b72d6;
+}
+
+.logout-btn {
+  background: #ff4f4f;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #d93e3e;
+}
+
+.error {
+  color: #d60000;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
